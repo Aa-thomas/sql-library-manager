@@ -1,2 +1,1 @@
 # sql-library-manager
-hello
