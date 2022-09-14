@@ -1,0 +1,29 @@
+extends layout
+
+block content 
+    title= title 
+
+    h1= title
+
+    form(action=`/books/${book.id}` method='POST')
+        input(type="hidden", name="id", value=book.id)
+        p
+            label(for="title") Title
+            input#title(type="text", name="title", placeholder="Title", value=book.title)
+        p
+            label(for="author") Author
+            input#author(type="text", name="author", placeholder="Author", value=book.author)
+        p
+            label(for="genre") Genre
+            input#genre(type="text", name="genre", placeholder="Genre", value=book.genre)
+        p
+            label(for="year") Year
+            input#year(type="text", name="year", placeholder="Year", value=book.year)
+        p
+            button(type="submit") Update Book
+        p
+            a(href="/books") Cancel
+        
+        form(action=`/books/${book.id}/delete` method='POST')
+            input(type="hidden", name="id", value=book.id)
+            button(type="submit") Delete Book
