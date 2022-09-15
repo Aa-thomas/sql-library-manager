@@ -2,6 +2,7 @@ var express = require('express');
 const createHttpError = require('http-errors');
 var router = express.Router();
 const Book = require('../models').Book;
+const { Op } = require('sequelize');
 
 /* GET home page. */
 router.get('/', async function (req, res, next) {
@@ -24,11 +25,11 @@ router.post('/books/new', async function (req, res, next) {
 	let book;
 	try {
 		book = await Book.create(req.body);
-		res.redirect('/books/' + book.id);
+		res.redirect('/books');
 	} catch (error) {
 		if (error.name === 'SequelizeValidationError') {
 			book = await Book.build(req.body);
-			res.render('books/new', {
+			res.render('new-book', {
 				book,
 				errors: error.errors,
 				title: 'New Book',
@@ -56,17 +57,18 @@ router.post('/books/:id', async function (req, res, next) {
 		book = await Book.findByPk(req.params.id);
 		if (book) {
 			await book.update(req.body);
-			res.redirect('/books/' + book.id);
+			res.redirect('/books');
 		} else {
 			res.sendStatus(404);
 		}
 	} catch (error) {
 		if (error.name === 'SequelizeValidationError') {
 			book = await Book.build(req.body);
-			res.render('books/new', {
+			book.id = req.params.id;
+			res.render('update-book', {
 				book,
 				errors: error.errors,
-				title: 'New Book',
+				title: book.title,
 			});
 		} else {
 			throw error;
@@ -83,6 +85,41 @@ router.post('/books/:id/delete', async function (req, res, next) {
 	} else {
 		res.createHttpError(404);
 	}
+});
+
+// search for books
+router.get('/books/search', async function (req, res, next) {
+	const search = req.query.search;
+	const books = await Book.findAll({
+		attributes: ['title', 'author', 'genre', 'year'],
+		where: {
+			[Op.or]: [
+				{
+					title: {
+						[Op.substring]: search,
+					},
+				},
+				{
+					author: {
+						[Op.substring]: search,
+					},
+				},
+				{
+					genre: {
+						[Op.substring]: search,
+					},
+				},
+				{
+					year: {
+						[Op.gte]: search,
+					},
+				},
+			],
+		},
+	});
+	console.log(search);
+	console.log(books.map((book) => book.toJSON()));
+	res.render('index', { books });
 });
 
 module.exports = router;

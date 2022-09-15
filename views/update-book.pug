@@ -5,6 +5,12 @@ block content
 
     h1= title
 
+    if(errors)
+        h2.error Oops!
+        ul.error
+            each error in errors
+                li= error.message
+
     form(action=`/books/${book.id}` method='POST')
         input(type="hidden", name="id", value=book.id)
         p
@@ -22,8 +28,9 @@ block content
         p
             button(type="submit") Update Book
         p
-            a(href="/books") Cancel
-        
-        form(action=`/books/${book.id}/delete` method='POST')
-            input(type="hidden", name="id", value=book.id)
-            button(type="submit") Delete Book
+            a.button(href="/books") Cancel
+    form(action=`/books/${book.id}/delete` method='POST')
+        input(type="hidden", name="id", value=book.id)
+        button(type="submit") Delete Book
+    
+    

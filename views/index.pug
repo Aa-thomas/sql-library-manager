@@ -2,7 +2,14 @@ extends layout
 
 block content
   head 
-  title Book Search 
+  title Book Search
+  form(action='/books/search' method='get')
+    p
+      label(for="search") Search
+      input#search(type="text", name="search", placeholder="Search")
+    p
+      button(type="submit") Search
+    
 
   h1 Books 
 
@@ -24,6 +31,3 @@ block content
           td= book.author
           td= book.genre
           td= book.year
-          td
-            a.button(href="/books/" + book.id ) Update 
-            a.button(href="/books/" + book.id + "/delete") Delete
