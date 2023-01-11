@@ -25,9 +25,15 @@ button, a.button, input[type=submit] {
 }
 
 button, a.button, input[type=submit] {
-  margin-left: 140px;
   transition: 0.4s;
   border: none;
+}
+
+a.button {
+  margin-bottom: 100px;
+  position: relative;
+  bottom: 10px;
+  left:
 }
 
 input[type=submit] {
@@ -95,4 +101,13 @@ input[type=text] {
 
 .error {
   color: rgb(236, 15, 15);
+}
+
+table {
+  margin: 40px 0;
+}
+thead {
+  background-color: #019875;
+  border-radius: 10px;
+  
 }
