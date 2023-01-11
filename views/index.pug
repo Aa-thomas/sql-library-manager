@@ -4,16 +4,20 @@ block content
   head 
   title Book Search
   form(action='/books/search' method='get')
-    p
-      label(for="search") Search
-      input#search(type="text", name="search", placeholder="Search")
-    p
-      button(type="submit") Search
+    div.searchFlex
+      p
+        label(for="search") Search
+        input#search(type="text", name="search", placeholder="Search" required)
+      p
+        button(type="submit") Search
+        
     
 
-  h1 Books 
+  div.searchFlex
+    h1 Books
+    a.button.new(href="/books/new") New Book 
 
-  a.button(href="/books/new") New Book
+  
 
   table
     thead
@@ -22,7 +26,7 @@ block content
         th Author
         th Genre
         th Year
-        th
+        th 
     tbody
       each book in books
         tr
@@ -31,3 +35,8 @@ block content
           td= book.author
           td= book.genre
           td= book.year
+          td
+            form(action=`/books/${book.id}/delete` method='POST')
+              input(type="hidden", name="id", value=book.id)
+              button(type="submit") Delete Book
+  a.button(href='/books') Home

@@ -10,6 +10,7 @@ const usersRouter = require('./routes/users');
 const { error } = require('console');
 
 const app = express();
+app.get('/favicon.ico', (req, res) => res.status(204));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

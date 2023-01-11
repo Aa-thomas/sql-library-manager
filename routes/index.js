@@ -15,6 +15,35 @@ router.get('/books', async function (req, res, next) {
 	res.render('index', { books });
 });
 
+// search for books
+router.get("/books/search", async (req, res) => {
+	const search = req.query.search;
+	console.dir(req.query.search);
+ 
+	if (!search) {
+	  res.render("no-books-error", { books: [], message: "Please enter a search term" });
+	  return;
+	}
+ 
+	const books = await Book.findAll({
+	  attributes: ["title", "author", "genre", "year"],
+	  where: {
+		 [Op.or]: [
+			{ title: { [Op.like]: `%${search}%` } },
+			{ author: { [Op.like]: `%${search}%` } },
+			{ genre: { [Op.like]: `%${search}%` } },
+			{ year: { [Op.eq]: search } }
+		 ]
+	  }
+	});
+	if (books.length === 0) {
+	  res.render("no-books-error", { books, message: "No books found" });
+	  return;
+	}
+	res.render("index", { books });
+ });
+ 
+
 // Shows the create new book form
 router.get('/books/new', async function (req, res, next) {
 	res.render('new-book', { book: {}, title: 'New Book' });
@@ -83,43 +112,8 @@ router.post('/books/:id/delete', async function (req, res, next) {
 		await book.destroy();
 		res.redirect('/books');
 	} else {
-		res.createHttpError(404);
+		next(createHttpError(404));
 	}
-});
-
-// search for books
-router.get('/books/search', async function (req, res, next) {
-	const search = req.query.search;
-	const books = await Book.findAll({
-		attributes: ['title', 'author', 'genre', 'year'],
-		where: {
-			[Op.or]: [
-				{
-					title: {
-						[Op.substring]: search,
-					},
-				},
-				{
-					author: {
-						[Op.substring]: search,
-					},
-				},
-				{
-					genre: {
-						[Op.substring]: search,
-					},
-				},
-				{
-					year: {
-						[Op.gte]: search,
-					},
-				},
-			],
-		},
-	});
-	console.log(search);
-	console.log(books.map((book) => book.toJSON()));
-	res.render('index', { books });
 });
 
 module.exports = router;
