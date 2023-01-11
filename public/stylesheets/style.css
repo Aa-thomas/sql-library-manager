@@ -1,6 +1,6 @@
 body {
   padding: 10px 50px 50px;
-  font: 18px "Garamond", serif;
+  font: clamp(6px, 2vw, 18px) 'trebuchet', 'sans-serif';
 }
 
 a {
@@ -19,7 +19,7 @@ button, a.button, input[type=submit] {
   background: #019875;
   font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
   padding: 10px 14px 12px;
-  font-size: 14px;
+  font-size: clamp(6px, 2vw, 18px);
   border-radius: 2px;
   cursor: pointer;
 }
@@ -27,13 +27,7 @@ button, a.button, input[type=submit] {
 button, a.button, input[type=submit] {
   transition: 0.4s;
   border: none;
-}
-
-a.button {
-  margin-bottom: 100px;
-  position: relative;
-  bottom: 10px;
-  left:
+  border-radius: 10px;
 }
 
 input[type=submit] {
@@ -95,8 +89,7 @@ input {
 }
 
 input[type=text] {
-  margin-left: 7px;
-  width: 300px;
+  min-width: 200px;
 }
 
 .error {
@@ -106,8 +99,44 @@ input[type=text] {
 table {
   margin: 40px 0;
 }
+
+table {
+  width: 100%;
+  transform: translate(0px, 18.1875px);
+}
+
 thead {
   background-color: #019875;
-  border-radius: 10px;
-  
+}
+
+.flex{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media (max-width: 600px) {
+  td {
+    padding: 3px 10px 3px 5px;
+  }
+  th {
+  padding: 5px 20px 5px 10px;
+}
+
+input[type=text] {
+  width: 50%;
+  margin: auto;
+}
+
+body {
+  padding: 5px;
+}
+
+
+}
+
+@media (max-width: 470px){
+  .flex {
+    flex-direction: column;
+  }
 }

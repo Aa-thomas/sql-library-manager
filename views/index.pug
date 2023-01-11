@@ -4,17 +4,17 @@ block content
   head 
   title Book Search
   form(action='/books/search' method='get')
-    div.searchFlex
-      p
-        label(for="search") Search
-        input#search(type="text", name="search", placeholder="Search" required)
-      p
-        button(type="submit") Search
+    div.flex      
+      label(for="search") Search
+      input#search(type="text", name="search", placeholder="Search" required)
+      button(type="submit") Search
+        
         
     
 
-  div.searchFlex
+  div.flex
     h1 Books
+    p Public Library
     a.button.new(href="/books/new") New Book 
 
   
@@ -39,4 +39,4 @@ block content
             form(action=`/books/${book.id}/delete` method='POST')
               input(type="hidden", name="id", value=book.id)
               button(type="submit") Delete Book
-  a.button(href='/books') Home
+  a.button(href='/books') List All
