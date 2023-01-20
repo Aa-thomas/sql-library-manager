@@ -1,4 +1,4 @@
-# sql-library-man
+# sql-library-manager
 
 
 
